@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="page">
+<div class="container-fluid">
+
+  <div class="row">
+      <div class="product-name">{{ product.title }}</div><br>
+  </div>
+
+  <div class="row">
+    {% if "user" in session %}
+      {% if is_favorite %}
+        <button type="button" class="btn btn-default" id="product-fav-button">Favorited</button>
+      {% else %}
+        <button type="button" class="btn btn-default" id="product-fav-button">Add to favorites</button>
+      {% endif %}
+    {% endif %}
+  </div><br>
+
+  <div class="row">
+    <div class="col-sm-3">
+      <img src="{{ product.image }}" height="250" width="250"><br><br>
+      <div class="product-details">
+        <p>Price: ${{ product.price }}</p>
+        <p>{{ product.n_scores }} reviews</p>
+        <p class="pg-score">Product Genius Score: {{ "{:.2f}".format(product.pg_score) }}</p>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <h2>Buyer Ratings</h2><br>
+      <div class="product-histogram">
+          <canvas id="barChart"></canvas>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <!--Keyword clouds go here -->
+
+  <div class="row">
+
+    <!--Search within review here -->
+    <div class="col-sm-3">
+      <h2>Search within reviews:</h2>
+      <form class="form-inline" action="/search-review" id="review-search-form" method="GET">
+        <div class="form-group">
+          <input class="form-control input-lg" name="query" id="query" type="text">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+    </div>
+    
+    <!--Positive review keywords here -->
+    <div class="col-sm-4">
+      <br>
+      <div class="review-keyword-title">Positive Reviews:</div>
+      <div class="keyword-container" id="positive-keywords"></div>
+    </div>
+
+    <!--Negative review keywords here -->
+    <div class="col-sm-4">
+      <br>
+      <div class="review-keyword-title">Negative Reviews:</div>
+      <div class="keyword-container" id="negative-keywords"></div>
+    </div>
+  </div><hr>
+
+
+  <!--Reviews go here -->
+  <div id="reviews" class="reviews">
+      {% for rev in product.reviews[:10] %}
+        <br>
+        <h3>{{ rev.summary }}</h3>
+
+        {% if "user" in session %}
+          {% if rev.review_id in favorite_reviews %}
+            <img src="/static/img/heart.png" class="heart" height="35" width="35" data-review-id={{ rev.review_id }}>
+          {% else %}
+            <img src="/static/img/heart-empty.jpg" class="heart" height="35" width="35" data-review-id={{ rev.review_id }}>
+          {% endif %}
+        {% endif %}
+
+        <p class="score">Score: {{ rev.score }}</p>
+        <p>{{ rev.review }}</p>
+        <br>
+        <hr>
+      {% endfor %}
+  </div>
+
+
+</div> <!--container fluid -->
+</div> <!--page -->
+
+<!-- Javascript links -->
+
+<!-- Pass the product's asin to javascript files -->
+<script> var asin = "{{ product.asin }}";</script>
+<!-- Pass the product's positive and negative keywords to js files -->
+<script> var posKey = {{ pos_words|safe }}; </script>
+<script> var negKey = {{ neg_words|safe }}; </script>
+<script src="/static/js/histogram.js"></script>
+<script src="/static/js/search_reviews.js"></script>
+<script src="/static/js/favorites.js"></script>
+<script src="/static/js/jqcloud.js"></script>
+<script src="/static/js/word-clouds.js"></script>
+
+{% endblock %}
+
+
+

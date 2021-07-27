@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="page"> 
+  <h2 id="search-term">You searched for "{{ query }}"</h2>
+  <br><br><hr>
+  {% if not products %}
+    <h2>Sorry, there were no products that matched your search.</h2>
+  {% endif %}
+
+  <div class="container-fluid">
+  {% for asin, title,description,price, image,scores, n_scores,pg_score,pos_words,neg_words in products %}
+    <div class="product-box">
+
+      <!-- Row for title -->
+      <div class="row">
+        <div class="product-name"><a href="/product/{{ asin }}">{{ title }}</a></div><br>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <a href="/product/{{ asin }}"><img src="{{ image }}" height="200" width="200"></a>
+        </div>
+        <div class="col-sm-6">
+            <p>Price: ${{ price }}</p>
+            <p>{{ n_scores }} reviews</p>
+            <p class="pg-score">Product Genius Score: {{ "{:.2f}".format(pg_score) }}</p>
+        </div>
+      </div>
+
+    </div> <!-- End of product box class -->
+    <hr>
+  {% endfor %}
+  </div> <!-- End of container fluid -->
+
+</div> <!-- End of page -->
+
+{% endblock %}
