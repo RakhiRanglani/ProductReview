@@ -40,7 +40,7 @@ def format_reviews_to_dicts(reviews, user_id):
 
     rev_dict_list = []
 
-    for review_id, review, asin, score, summary, time, _, _ in reviews:
+    for review_id, review, asin, score,summary, time in reviews:
         rev_dict = {}
         rev_dict["review_id"] = review_id
         rev_dict["review"] = review

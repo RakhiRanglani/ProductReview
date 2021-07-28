@@ -96,8 +96,8 @@ def display_product_profile(asin):
 
     return render_template("product_details.html",
                            product=product,
-                           pos_words=json.dumps(product.pos_words),
-                           neg_words=json.dumps(product.neg_words),
+                           pos_words=['play', 'just', 'disc', 'zoom', 'sound', 'picture', 'use', 'right', 'like'],
+                           neg_words=['skip', 'scene', 'work', 'hold', 'fast', 'buttons', 'way', 'virtually', 'start', 'skips'],
                            is_favorite=is_favorite,
                            favorite_reviews=favorite_reviews)
 

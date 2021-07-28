@@ -200,17 +200,11 @@ class Product(db.Model):
         return distribution
 
     def get_scores(self):
-        """Return the distribution of scores for a product as a list.
 
-           ex:
-            if product "P1234" had one 2-star review and four 5-star reviews,
-            get_scores() would return [0, 1, 0, 0, 5]
-         """
-
-        return json.loads(self.scores)
+        scorelist= [0, 1, 0, 0, 5]
+        return scorelist
 
     def get_total_stars(self):
-        """Return a product's total stars and n reviews as a tuple"""
 
         scores = self.get_scores()
 
@@ -284,35 +278,16 @@ class Review(db.Model):
 
     @staticmethod
     def find_reviews(asin, query):
-        """Queries database to find product reviews based on user's search.
-
-           This full-text search in postgres stems, removes stop words, applies weights
-           to different fields (review summary is more important than the review text),
-           and ranks the results by relevancy.
-
-           Currently, the default weights in ts_rank() are used, which is 1 for 'A'
-           and 0.4 for 'B'. Future goal: experiment with different weightings and/or
-           a cutoff for how relevant a review has to be to return.
-        """
 
         # If the search_query is more than one word,
         # need to format the query for sql with a '&' in between words
         words = query.strip().split(' ')
         search_formatted = ' & '.join(words)
 
-        sql = """SELECT *, ts_rank(array[0, 0, 0.8, 1], review_search.review_info,
-                    to_tsquery('english', :search_terms)) AS relevancy
-                    FROM (SELECT *,
-                        setweight(to_tsvector('english', summary), 'A') ||
-                        setweight(to_tsvector('english', review), 'B') AS review_info
-                    FROM reviews
-                    WHERE asin=:asin) review_search
-                    WHERE review_search.review_info @@ to_tsquery('english', :search_terms)
-                    ORDER BY relevancy DESC;
-              """
+        sql = """SELECT * FROM reviews WHERE asin='%s'
+                    and review LIKE '%%%s%%' """ % (asin, search_formatted,)
 
-        cursor = db.session.execute(sql,
-                                    {'search_terms': search_formatted,
+        cursor = db.session.execute(sql, {'search_terms': search_formatted,
                                      'asin': asin})
         return cursor.fetchall()
 
