@@ -163,7 +163,7 @@ class Product(db.Model):
     image = db.Column(db.Text, nullable=False)   # link to image
     scores = db.Column(db.JSON)                  # List with 1-5 star ratings stored as json
     n_scores = db.Column(db.Integer)
-    pg_score = db.Column(db.Float)               # Product Genius score
+    pg_score = db.Column(db.Float)               # Product Review score
     pos_words = db.Column(db.JSON)               # List of positive keywords stored as json
     neg_words = db.Column(db.JSON)               # List of negative keywords stored as json
     categories = db.relationship('Category',
@@ -214,7 +214,7 @@ class Product(db.Model):
         return (stars, self.n_scores)
 
     def calculate_pg_score(self, pg_average=3.0, C=10):
-        """Calculate Product Genius score with bayesian average"""
+        """Calculate Product Review score with bayesian average"""
 
         stars, n_scores = self.get_total_stars()
         pg_score = (C * pg_average + stars)/(C + n_scores)

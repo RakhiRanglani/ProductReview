@@ -1,4 +1,3 @@
-"""ReviewGenius"""
 from main import User, Product, Review, connect_to_db
 from product_review import get_chart_data, format_reviews_to_dicts
 import json
@@ -194,7 +193,7 @@ def process_registration():
         message = "That email already exists. Please login or register for a new account"
     else:
         User.register_user(name, email, password)
-        message = "Welcome to Product Genius"
+        message = "Welcome to Product Review"
 
     flash(message)
 
