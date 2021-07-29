@@ -17,10 +17,10 @@ def connect_to_db(app):
     #app.config['MYSQL_PASSWORD'] = '1234'
     #app.config['MYSQL_DB'] = 'productreview'
     app.config['SQLALCHEMY_DATABASE_URI']="mysql://cwjxyyk5e84ajg4d:mao24t9gb3c6o9l9@pei17y9c5bpuh987.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/q9aszd3jcepi2j9l"
-    app.config['MYSQL_USER']='cwjxyyk5e84ajg4d'
+    app.config['MYSQL_USER'] = 'cwjxyyk5e84ajg4d'
     app.config['MYSQL_PASSWORD'] = 'mao24t9gb3c6o9l9'
-    app.config['MYSQL_HOST']='pei17y9c5bpuh987.chr7pe7iynqr.eu-west-1.rds.amazonaws.com'
-    app.config['MYSQL_DB']='q9aszd3jcepi2j9l'
+    app.config['MYSQL_HOST'] = 'pei17y9c5bpuh987.chr7pe7iynqr.eu-west-1.rds.amazonaws.com'
+    app.config['MYSQL_DB'] = 'q9aszd3jcepi2j9l'
 
     app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
     db = SQLAlchemy(app)
