@@ -10,18 +10,20 @@ def connect_to_db(app):
     """Connect the database to Flask app."""
   # Configure to use PostgreSQL database
     # Enter your database connection details below
-
+   #-----Local base data connection details----#
     #app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:1234@localhost/productreview"
     #app.config['MYSQL_HOST'] = 'localhost'
     #app.config['MYSQL_USER'] = 'root'
     #app.config['MYSQL_PASSWORD'] = '1234'
     #app.config['MYSQL_DB'] = 'productreview'
+
+    #----Remote Database connection details---#
+
     app.config['SQLALCHEMY_DATABASE_URI']="mysql://cwjxyyk5e84ajg4d:mao24t9gb3c6o9l9@pei17y9c5bpuh987.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/q9aszd3jcepi2j9l"
     app.config['MYSQL_USER'] = 'cwjxyyk5e84ajg4d'
     app.config['MYSQL_PASSWORD'] = 'mao24t9gb3c6o9l9'
     app.config['MYSQL_HOST'] = 'pei17y9c5bpuh987.chr7pe7iynqr.eu-west-1.rds.amazonaws.com'
     app.config['MYSQL_DB'] = 'q9aszd3jcepi2j9l'
-
     app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
     db = SQLAlchemy(app)
     db.init_app(app)
@@ -336,10 +338,9 @@ favorite_reviews = db.Table('favorite_reviews',
     db.Column('review_id', db.Integer, db.ForeignKey('reviews.review_id'), primary_key=True)
 )
 
-if __name__ == '__main__':
-    from server import app
-    connect_to_db(app)
+#if __name__ == '__main__':
+ #   from server import app
+  #  connect_to_db(app)
 
-    print("Connected to DB.")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
