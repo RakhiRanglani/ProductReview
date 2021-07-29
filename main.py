@@ -1,7 +1,6 @@
 import json
 import numpy as np
 from flask_sqlalchemy import SQLAlchemy
-
 db = SQLAlchemy()
 
 # Press the green button in the gutter to run the script.

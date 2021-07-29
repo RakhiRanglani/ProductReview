@@ -4,6 +4,7 @@ import json
 from flask import Flask, render_template, redirect, request, flash, session, jsonify
 from jinja2 import StrictUndefined
 
+
 app = Flask(__name__)
 
 # Required to use Flask sessions and the debug toolbar
@@ -11,6 +12,7 @@ app.secret_key = "ProductReview"
 
 # Jinja2 should raise error if it encounters an undefined variable
 app.jinja_env.undefined = StrictUndefined
+
 
 
 @app.route('/')
@@ -96,7 +98,8 @@ def display_product_profile(asin):
     return render_template("product_details.html",
                            product=product,
                            pos_words=['play', 'just', 'disc', 'zoom', 'sound', 'picture', 'use', 'right', 'like'],
-                           neg_words=['skip', 'scene', 'work', 'hold', 'fast', 'buttons', 'way', 'virtually', 'start', 'skips'],
+                           neg_words=['skip', 'scene', 'work', 'hold', 'fast', 'buttons', 'way', 'virtually', 'start',
+                                      'skips'],
                            is_favorite=is_favorite,
                            favorite_reviews=favorite_reviews)
 
@@ -117,7 +120,6 @@ def display_user_profile(user_id):
     favorite_products = user.favorite_products.all()
 
     for pr in favorite_products:
-
         # Attach an attribute list to the product, with the user's favorited reviews
         pr.favorited_reviews = user.get_favorite_reviews_for_product(pr.asin)
 
@@ -249,11 +251,9 @@ def log_out():
     return redirect("/")
 
 
-
 ##################################################################
 
 if __name__ == "__main__":
-
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
     app.debug = True
@@ -266,7 +266,7 @@ if __name__ == "__main__":
     # Use the DebugToolbar
     # DebugToolbarExtension(app)
 
-    #app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+    # app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     app.run(port=5000, host='0.0.0.0')
